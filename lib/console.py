@@ -30,8 +30,7 @@ class Console(Cmd, object):
 
   call('clear')
   self._sessions = Queue() # holds attack sessions
-  self.prompt = '{}{}{}>{} '.\
-  format(colors['red'], getuser(), colors['blue'], colors['white'])
+  self.prompt = f"{colors['red']}{getuser()}{colors['blue']}>{colors['white']} "
 
  def _help_menu(self):
   """"Show a list of commands which help can be displayed for.
@@ -47,11 +46,7 @@ class Console(Cmd, object):
    names.remove(name)
 
   cmds_doc = []
-  help_dict = {}
-  for name in names:
-   if name[:5] == 'help_':
-    help_dict[name[5:]] = 1
-
+  help_dict = {name[5:]: 1 for name in names if name[:5] == 'help_'}
   names.sort()
   prevname = ''
 
@@ -71,8 +66,6 @@ class Console(Cmd, object):
      del help_dict[command]
     elif getattr(self, name).__doc__:
      cmds_doc.append(command)
-    else:pass
-
   self.print_topics(self.doc_header, cmds_doc, 15, 80)
 
  def print_topics(self, header, cmds, cmdlen, maxcol):
@@ -131,11 +124,11 @@ class Console(Cmd, object):
   args = self.check_args(args, 2)
   if not args:return
   obj = self._sessions.queue[args[0]].obj
-  del self.session_history[self.session_history.index('{} {} {}'.\
-  format(obj.site['name'].lower(), obj.username, obj.wordlist))]
+  del self.session_history[self.session_history.index(
+      f"{obj.site['name'].lower()} {obj.username} {obj.wordlist}")]
   obj.username = args[1].title()
-  self.session_history.append('{} {} {}'.\
-  format(obj.site['name'].lower(), obj.username, obj.wordlist))
+  self.session_history.append(
+      f"{obj.site['name'].lower()} {obj.username} {obj.wordlist}")
   obj.session.username = obj.username
 
  def do_change_wordlist(self, args):
@@ -248,8 +241,8 @@ class Console(Cmd, object):
    if any([index >= len(self._sessions.queue), index < 0]):continue
    obj = self._sessions.queue[index].obj
 
-   del self.session_history[self.session_history.index('{} {} {}'.\
-   format(obj.site['name'].lower(), obj.username, obj.wordlist))]
+   del self.session_history[self.session_history.index(
+       f"{obj.site['name'].lower()} {obj.username} {obj.wordlist}")]
    self._sessions.queue[index].stop()
    self._sessions.queue.pop(index)
 
@@ -264,8 +257,8 @@ class Console(Cmd, object):
    if any([index >= len(self._sessions.queue), index < 0]):continue
    obj = self._sessions.queue[index].obj
 
-   del self.session_history[self.session_history.index('{} {} {}'.\
-   format(obj.site['name'].lower(), obj.username, obj.wordlist))]
+   del self.session_history[self.session_history.index(
+       f"{obj.site['name'].lower()} {obj.username} {obj.wordlist}")]
    session = self._sessions.queue.pop(index)
    session.remove()
    sleep(0.1)

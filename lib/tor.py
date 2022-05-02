@@ -13,7 +13,7 @@ def tor_restart():
  sleep(1.5)
 
 def tor_is_active():
- return not 'dead' in shell('service tor status')
+ return 'dead' not in shell('service tor status')
 
 def tor_exists():
  return shell('which tor')

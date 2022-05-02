@@ -46,14 +46,13 @@ class Bruteforce(Spyder):
 
  def login(self, pwd):
   try:
-
    # wait & hope for the account to be unlocked
    if self.locked:
-    if time() >= self.locked:
-     self.locked = False
-     self.restart_tor()
-    else:return
+    if time() < self.locked:
+     return
 
+    self.locked = False
+    self.restart_tor()
    url = self.site['url']
    username_field = self.site['username_field']
    password_field = self.site['password_field']
@@ -89,13 +88,13 @@ class Bruteforce(Spyder):
    if all([not self.is_found, self.is_alive, not self.attempts%session_save_time]):self.session_write()
 
   except KeyboardInterrupt:self.kill()
-  except:self.proxy_fails += 1
-  finally:br.close()
+  finally:
+   br.close()
 
  def session_write(self):
   queue = self.passlist.queue
   queue = str(queue) if queue else None
-  locked_time = self.locked if self.locked else 0
+  locked_time = self.locked or 0
   self.session.update(queue, locked_time, self.attempts)
 
  def attack(self):

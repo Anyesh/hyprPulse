@@ -44,10 +44,8 @@ class Spyder(object):
    self.last_restarted = None
    return ip
   except:
-   if not self.last_restarted:
+   if (self.last_restarted
+       and time() - self.last_restarted >= network_manager_time
+       or not self.last_restarted):
     self.last_restarted = time()
     self.restart_net_manager()
-   else:
-    if time() - self.last_restarted >= network_manager_time:
-     self.last_restarted = time()
-     self.restart_net_manager()

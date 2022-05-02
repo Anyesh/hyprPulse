@@ -14,4 +14,5 @@ class Pulsar(Console, Database):
   self.exit()
 
 if __name__ == '__main__':
- exit('Run: chmod +x install.sh && ./install.sh') if not tor_exists() else Pulsar().run()
+ Pulsar().run() if tor_exists() else exit(
+     'Run: chmod +x install.sh && ./install.sh')

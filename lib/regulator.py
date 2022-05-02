@@ -16,12 +16,11 @@ class Regulate(object):
   time_left = self.obj.unlock_time() if self.obj.locked else ''
   time_left = time_left if time() <= self.obj.locked else ''
 
-  site = '{}{}{}'.format(colors['yellow'], self.obj.site['name'], colors['white'])
-  attempts = '{}{}{}'.format(colors['yellow'], self.obj.attempts, colors['white'])
-  wordlist = '{}{}{}'.format(colors['blue'], self.obj.wordlist, colors['white'])
-  ip = '{}{}{}'.format(colors['blue'] if self.obj.ip else colors['white'],
-                       self.obj.ip if self.obj.ip else '', colors['white'])
-  pwd = '{}'.format(self.obj.pwd if self.obj.pwd else '')
+  site = f"{colors['yellow']}{self.obj.site['name']}{colors['white']}"
+  attempts = f"{colors['yellow']}{self.obj.attempts}{colors['white']}"
+  wordlist = f"{colors['blue']}{self.obj.wordlist}{colors['white']}"
+  ip = f"{colors['blue'] if self.obj.ip else colors['white']}{self.obj.ip or ''}{colors['white']}"
+  pwd = f"{self.obj.pwd or ''}"
 
   return '\n[-] Web-Site: {}\n[-] Proxy-IP: {}\n[-] Wordlist: {}\n[-] Username: {}\
   \n[-] Password: {}\n[-] Attempts: {}{}\n'.format(site, ip, wordlist,
